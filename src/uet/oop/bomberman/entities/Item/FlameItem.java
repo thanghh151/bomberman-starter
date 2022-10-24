@@ -15,6 +15,7 @@ public class FlameItem extends Entity {
             return true;
         }
         return false;
+        //sout
     }
 
     @Override
