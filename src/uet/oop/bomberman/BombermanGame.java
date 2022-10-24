@@ -27,11 +27,7 @@ import javafx.stage.WindowEvent;
 import uet.oop.bomberman.entities.Item.BombItem;
 import uet.oop.bomberman.entities.Item.FlameItem;
 import uet.oop.bomberman.entities.Item.SpeedItem;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Brick;
-import uet.oop.bomberman.entities.Portal;
-import uet.oop.bomberman.entities.Wall;
-import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.base.*;
 import uet.oop.bomberman.entities.Bomb.*;
 import uet.oop.bomberman.entities.Mob.*;
 import uet.oop.bomberman.entities.Entity;
@@ -61,14 +57,14 @@ public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
 
-    private long lastUpdate;
-    private int speed = 2 ;
-    private int maxSpeed = 4;
-    private int enemySpeed = 1;
-    private int maxBomb = 1;
-    private int maxBombCanPowerUp = 3;
-    private int flameLevel = 1;
-    private int maxFlameLevel = 3;
+    private long lastUpdate; // Last time in which `handle()` was called
+    private int speed = 2 ; // tốc độ nhân vật di chuyển
+    private int maxSpeed = 4;// toc do toi da
+    private int enemySpeed = 1; //tốc độ địch di chuyển
+    private int maxBomb = 1;// Số bomb tối đa được đặt
+    private int maxBombCanPowerUp = 3;//so bom toi da co the nang cap
+    private int flameLevel = 1;//do dai cua flame
+    private int maxFlameLevel = 3;//so level lua toi da
 
     private int dx;
     private int dy;
@@ -83,7 +79,6 @@ public class BombermanGame extends Application {
     private List<Flame> temp = new ArrayList<>();
     private List<Entity> ItemList = new ArrayList<>();
     private List<Entity> renderUnderBrick = new ArrayList<>();
-
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -242,6 +237,7 @@ public class BombermanGame extends Application {
             }
         }
     }
+
     public void createItem() {
         FlameItem f1 = new FlameItem(7, 1, Sprite.powerup_flames.getFxImage());
         FlameItem f2 = new FlameItem(11, 4, Sprite.powerup_flames.getFxImage());
@@ -374,22 +370,150 @@ public class BombermanGame extends Application {
         });
         temp.clear();
     }
+
     public void destroyAround(Bomb g) {
+        g.explode(stillObjects,HEIGHT,temp);
+        g.collideWithAnotherBomb(bomb,HEIGHT,temp,stillObjects);
+        temp.forEach(v -> v.render(gc));
+        Timer count = new Timer();
+        count.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                g.setState("explode");
+
+                count.cancel();
+            }},200,1);
     }
 
     public void randomState(Mob e) {
+        int realX = e.getX()/Sprite.SCALED_SIZE;
+        int realY = e.getY()/Sprite.SCALED_SIZE;
+        Random generator = new Random();
+        int randomStateNumber;
+        if(e.getX()%Sprite.SCALED_SIZE==0 && (e.getY()%Sprite.SCALED_SIZE==0)){
+            if (e.getState().equals("right")) {
+                if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY +HEIGHT)) || !e.collidesWithBomb(bomb)){
+                    randomStateNumber = generator.nextInt(4) + 1;
+                    setRandomState(randomStateNumber,e);
+                }
+            } else if (e.getState().equals("up")) {
+                if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY -1)) || !e.collidesWithBomb(bomb)){
+                    randomStateNumber = generator.nextInt(4) + 1;
+                    setRandomState(randomStateNumber,e);
+                }
+            } else if (e.getState().equals("down")) {
+                if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY +1)) || !e.collidesWithBomb(bomb)){
+                    randomStateNumber = generator.nextInt(4) + 1;
+                    setRandomState(randomStateNumber,e);
+                }
+            } else if (e.getState().equals("left")) {
+                if (!e.collidesWith(stillObjects.get(realX * HEIGHT + realY-HEIGHT)) || !e.collidesWithBomb(bomb)){
+                    randomStateNumber = generator.nextInt(4) + 1;
+                    setRandomState(randomStateNumber,e);
+                }
+            }
+        }
     }
 
     public void randomStateForOneal(OnealEnemy e) {
+        int realX = e.getX()/Sprite.SCALED_SIZE;
+        int realY = e.getY()/Sprite.SCALED_SIZE;
+        Random generator = new Random();
+        Timer count = new Timer();
+
+        count.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int randomStateNumber;
+                if(e.getX()%Sprite.SCALED_SIZE==0 && (e.getY()%Sprite.SCALED_SIZE==0)){
+                    if (e.getState().equals("right")) {
+                        if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY +HEIGHT)) || !e.collidesWithBomb(bomb)){
+                            randomStateNumber = generator.nextInt(4) + 1;
+                            setRandomState(randomStateNumber,e);
+                        }
+                    } else if (e.getState().equals("up")) {
+                        if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY -1)) || !e.collidesWithBomb(bomb)){
+                            randomStateNumber = generator.nextInt(4) + 1;
+                            setRandomState(randomStateNumber,e);
+                        }
+                    } else if (e.getState().equals("down")) {
+                        if(!e.collidesWith(stillObjects.get(realX * HEIGHT + realY +1)) || !e.collidesWithBomb(bomb)){
+                            randomStateNumber = generator.nextInt(4) + 1;
+                            setRandomState(randomStateNumber,e);
+                        }
+                    } else if (e.getState().equals("left")) {
+                        if (!e.collidesWith(stillObjects.get(realX * HEIGHT + realY-HEIGHT)) || !e.collidesWithBomb(bomb)){
+                            randomStateNumber = generator.nextInt(4) + 1;
+                            setRandomState(randomStateNumber,e);
+                        }
+                    }
+                }
+                count.cancel();
+            }},2000,1);
     }
 
     public void setRandomState(int i, Mob e) {
+        switch (i) {
+            case 1: {
+                e.setState("up");
+                break;
+            } case 2: {
+                e.setState("down");
+                break;
+            } case 3: {
+                e.setState("left");
+                break;
+            } default: {
+                e.setState("right");
+                break;
+            }
+        }
     }
 
     public void move() {
+        players.forEach(g -> {
+            Movement.move(g, dx, dy, stillObjects, HEIGHT, WIDTH, bomb);
+        });
+
+        for(int i = 0; i < entities.size();i++) {
+            if (entities.get(i).getState().equals("right")) {
+                Movement.move(entities.get(i), enemySpeed, enemySpeed, stillObjects, HEIGHT, WIDTH, bomb);
+            } else if (entities.get(i).getState().equals("up")) {
+                Movement.move(entities.get(i), enemySpeed, -enemySpeed, stillObjects, HEIGHT, WIDTH, bomb);
+            } else if (entities.get(i).getState().equals("down")) { 
+                Movement.move(entities.get(i), enemySpeed, enemySpeed, stillObjects, HEIGHT, WIDTH, bomb);
+            } else if (entities.get(i).getState().equals("left")) {
+                Movement.move(entities.get(i), -enemySpeed, enemySpeed, stillObjects, HEIGHT, WIDTH, bomb);
+            }
+            if (entities.get(i) instanceof BalloomEnemy) {
+                randomState(entities.get(i));
+            } else if (entities.get(i) instanceof OnealEnemy) {
+                randomStateForOneal(((OnealEnemy)entities.get(i)));
+            }
+        }
     }
 
     public void itemBuff () {
+        if(!players.isEmpty()) {
+            ItemList.forEach(item -> {
+                if (item instanceof FlameItem && flameLevel < maxFlameLevel) {
+                    if (((FlameItem) item).collidesWithBomber(players.get(0))) {
+                        flameLevel++;
+                        item.setState("dead");
+                    }
+                } else if (item instanceof BombItem && maxBomb < maxBombCanPowerUp) {
+                    if (((BombItem) item).collidesWithBomber(players.get(0))) {
+                        maxBomb++;
+                        item.setState("dead");
+                    }
+                } else if (item instanceof SpeedItem && speed < maxSpeed) {
+                    if (((SpeedItem) item).collidesWithBomber(players.get(0))) {
+                        speed++;
+                        item.setState("dead");
+                    }
+                }
+            });
+        }
     }
 
 }
