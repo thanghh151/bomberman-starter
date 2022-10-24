@@ -12,7 +12,7 @@ public class Upgrade {
 
     public static boolean Endgame(String state, int score) {
         Dialog<Boolean> dialog = new Dialog<>();
-        if(state.equals("win")) {
+        if (state.equals("win")) {
             dialog.setHeaderText("VICTORY");
         } else dialog.setHeaderText("LOSE");
         ButtonType checkContinueButton = new ButtonType("OK!", ButtonBar.ButtonData.YES);
@@ -21,13 +21,13 @@ public class Upgrade {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,150,10,10));
+        grid.setPadding(new Insets(20, 150, 10, 10));
 
-        if(state.equals("win")) {
-            grid.add(new Label("Your score is: " + score),0, 0);
+        if (state.equals("win")) {
+            grid.add(new Label("Your score is: " + score), 0, 0);
         }
 
-        int highscore = 0 ;
+        int highscore = 0;
 
         try {
             highscore = highScore();
@@ -35,8 +35,8 @@ public class Upgrade {
             e.printStackTrace();
         }
 
-        if(state.equals("win")) {
-            if(score < highscore) {
+        if (state.equals("win")) {
+            if (score < highscore) {
                 highscore = score;
                 FileWriter fw = null;
                 BufferedWriter bw = null;
@@ -79,7 +79,7 @@ public class Upgrade {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,150,10,10));
+        grid.setPadding(new Insets(20, 150, 10, 10));
 
         /*grid.add(new Label("Di chuyển nhân vật: các phím mũi tên.\n" +
                 "Đặt bomb: SPACE.\n" +
@@ -92,4 +92,5 @@ public class Upgrade {
         });*/
         dialog.showAndWait();
     }
+}
 
