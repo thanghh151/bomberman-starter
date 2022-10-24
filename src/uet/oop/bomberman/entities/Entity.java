@@ -1,11 +1,11 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import uet.oop.bomberman.graphics.Sprite;
+
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
@@ -14,7 +14,9 @@ public abstract class Entity {
     //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
 
+    //Trạng thái của vật thể
     protected String state = "";
+
 
     protected Image img;
 
@@ -25,28 +27,32 @@ public abstract class Entity {
         this.img = img;
     }
 
-    public int getX() {
-        return x;
+
+    public void render(GraphicsContext gc) {
+        gc.drawImage(img, x, y);
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public abstract void update(int time);
+
+
+    public void setX(int _x) {
+        x = _x;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public Image getImg() {
         return img;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void setY(int _y) {
+        y = _y;
     }
 
     public String getState() {
@@ -57,8 +63,8 @@ public abstract class Entity {
         this.state = state;
     }
 
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+    public void setImg(Image _img) {
+        img = _img;
     }
-    public abstract void update();
+
 }

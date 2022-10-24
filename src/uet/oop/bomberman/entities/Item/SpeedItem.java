@@ -17,7 +17,6 @@ public class SpeedItem extends Entity {
         return false;
     }
 
-    @Override
     public void update(int time) {
 
     }

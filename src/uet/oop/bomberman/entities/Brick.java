@@ -16,7 +16,7 @@ public class Brick extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(int time) {
         if(state.equals("dead")) {
             this.img = movingSprite(Sprite.brick_exploded,Sprite.brick_exploded1,Sprite.brick_exploded2,cnt ++,3).getFxImage();
         }

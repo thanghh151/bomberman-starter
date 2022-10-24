@@ -16,7 +16,7 @@ public class Portal extends Entity {
         return false;
     }
 
-    public void update() {
+    public void update(int time) {
 
     }
 }

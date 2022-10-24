@@ -18,7 +18,6 @@ public class FlameItem extends Entity {
         //sout
     }
 
-    @Override
     public void update(int time) {
 
     }

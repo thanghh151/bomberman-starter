@@ -18,10 +18,6 @@ public class Mob extends Entity {
         super( x, y, img);
     }
 
-    @Override
-    public void update() {
-
-    }
 
     public void update(int time) {
 
