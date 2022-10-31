@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class FlameItem extends Entity {
     public FlameItem(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
         super.state = "live";
     }
 

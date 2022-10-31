@@ -95,7 +95,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Sound.play();
+        //Sound.play();
 
         // Tao Canvas
 
@@ -143,7 +143,7 @@ public class BombermanGame extends Application {
                         }
                     };
                     task.setOnSucceeded(e -> {
-                        boolean check = Upgrade.Endgame("lose",(int) elapsedSeconds);
+                        boolean check = Upgrade.Endgame("lose");
                         if(check) Platform.exit();
                     });
                     new Thread(task).start();
@@ -158,7 +158,7 @@ public class BombermanGame extends Application {
                             }
                         };
                         task.setOnSucceeded(e -> {
-                            boolean check = Upgrade.Endgame("win", (int) elapsedSeconds);
+                            boolean check = Upgrade.Endgame("win");
                             if (check) Platform.exit();
                         });
                         new Thread(task).start();

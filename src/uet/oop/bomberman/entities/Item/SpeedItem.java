@@ -6,7 +6,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class SpeedItem extends Entity {
     public SpeedItem(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
         super.state = "live";
     }
 

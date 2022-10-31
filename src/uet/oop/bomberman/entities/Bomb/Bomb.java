@@ -21,7 +21,7 @@ public class Bomb extends Entity{
     private int maxSizeRight = 0;
 
     public Bomb(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
         super.state = "live";
     }
 

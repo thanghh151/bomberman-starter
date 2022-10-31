@@ -6,7 +6,7 @@ import uet.oop.bomberman.entities.Entity;
 public class Flame extends Entity{
 
     public Flame(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
     }
 
 
