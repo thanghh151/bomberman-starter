@@ -1,5 +1,8 @@
 package uet.oop.bomberman;
 
+import java.io.File;
+import java.net.URL;
+import javafx.scene.media.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,6 +39,7 @@ import uet.oop.bomberman.entities.Mob.*;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.event.*;
+import uet.oop.bomberman.sound.*;
 
 import java.util.*;
 
@@ -83,13 +87,18 @@ public class BombermanGame extends Application {
     private List<Entity> ItemList = new ArrayList<>();
     private List<Entity> renderUnderBrick = new ArrayList<>();
 
+
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        //Sound.play();
+
         // Tao Canvas
+
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
@@ -100,11 +109,13 @@ public class BombermanGame extends Application {
         // Tao scene
         Scene scene = new Scene(root);
 
+
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
 
         lastUpdate = System.nanoTime();
+
 
         createMap();
         createItem();
@@ -132,8 +143,8 @@ public class BombermanGame extends Application {
                         }
                     };
                     task.setOnSucceeded(e -> {
-                        boolean ktra = Upgrade.Endgame("lose",(int) elapsedSeconds);
-                        if(ktra) Platform.exit();
+                        boolean check = Upgrade.Endgame("lose",(int) elapsedSeconds);
+                        if(check) Platform.exit();
                     });
                     new Thread(task).start();
                 }
@@ -147,8 +158,8 @@ public class BombermanGame extends Application {
                             }
                         };
                         task.setOnSucceeded(e -> {
-                            boolean ktra = Upgrade.Endgame("win", (int) elapsedSeconds);
-                            if (ktra) Platform.exit();
+                            boolean check = Upgrade.Endgame("win", (int) elapsedSeconds);
+                            if (check) Platform.exit();
                         });
                         new Thread(task).start();
                     }
@@ -518,5 +529,6 @@ public class BombermanGame extends Application {
             });
         }
     }
+
 
 }
