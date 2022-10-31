@@ -95,7 +95,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        //Sound.play();
+        Sound.play();
 
         // Tao Canvas
 
@@ -236,58 +236,6 @@ public class BombermanGame extends Application {
 
     }
 
-    public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity object;
-                if (map[j].charAt(i) == '#') {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                } else if (map[j].charAt(i) == '*') {
-                    object = new Brick(i, j, Sprite.brick.getFxImage());
-                } else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
-            }
-        }
-    }
-
-    public void createItem() {
-        FlameItem f1 = new FlameItem(7, 1, Sprite.powerup_flames.getFxImage());
-        FlameItem f2 = new FlameItem(11, 4, Sprite.powerup_flames.getFxImage());
-        BombItem b1 = new BombItem(3,10,Sprite.powerup_bombs.getFxImage());
-        BombItem b2 = new BombItem(17,10,Sprite.powerup_bombs.getFxImage());
-        SpeedItem s1 = new SpeedItem(25, 2, Sprite.powerup_speed.getFxImage());
-        SpeedItem s2 = new SpeedItem(29, 4, Sprite.powerup_speed.getFxImage());
-        Portal p = new Portal(1, 7, Sprite.portal.getFxImage());
-        ItemList.add(p);
-        ItemList.add(f1);
-        ItemList.add(f2);
-        ItemList.add(b1);
-        ItemList.add(b2);
-        ItemList.add(s1);
-        ItemList.add(s2);
-    }
-
-    public void createEntity() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                if (map[j].charAt(i) == 'p') {
-                    Mob object = new Bomber(i, j, Sprite.player_right.getFxImage());
-                    players.add(object);
-                } else if (map[j].charAt(i) == '1') {
-                    Mob object = new BalloomEnemy(i, j, Sprite.balloom_left1.getFxImage());
-                    object.setState("right");
-                    entities.add(object);
-                } else if (map[j].charAt(i) == '2') {
-                    Mob object = new OnealEnemy(i, j, Sprite.oneal_left1.getFxImage());
-                    object.setState("right");
-                    entities.add(object);
-                }
-            }
-        }
-    }
-
     public void update(int elapsedSeconds) {
 
         for (Entity stillObject : stillObjects) {
@@ -383,6 +331,58 @@ public class BombermanGame extends Application {
 
         });
         temp.clear();
+    }
+
+    public void createMap() {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                Entity object;
+                if (map[j].charAt(i) == '#') {
+                    object = new Wall(i, j, Sprite.wall.getFxImage());
+                } else if (map[j].charAt(i) == '*') {
+                    object = new Brick(i, j, Sprite.brick.getFxImage());
+                } else {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                }
+                stillObjects.add(object);
+            }
+        }
+    }
+
+    public void createItem() {
+        FlameItem f1 = new FlameItem(7, 1, Sprite.powerup_flames.getFxImage());
+        FlameItem f2 = new FlameItem(11, 4, Sprite.powerup_flames.getFxImage());
+        BombItem b1 = new BombItem(3,10,Sprite.powerup_bombs.getFxImage());
+        BombItem b2 = new BombItem(17,10,Sprite.powerup_bombs.getFxImage());
+        SpeedItem s1 = new SpeedItem(25, 2, Sprite.powerup_speed.getFxImage());
+        SpeedItem s2 = new SpeedItem(29, 4, Sprite.powerup_speed.getFxImage());
+        Portal p = new Portal(1, 7, Sprite.portal.getFxImage());
+        ItemList.add(p);
+        ItemList.add(f1);
+        ItemList.add(f2);
+        ItemList.add(b1);
+        ItemList.add(b2);
+        ItemList.add(s1);
+        ItemList.add(s2);
+    }
+
+    public void createEntity() {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                if (map[j].charAt(i) == 'p') {
+                    Mob object = new Bomber(i, j, Sprite.player_right.getFxImage());
+                    players.add(object);
+                } else if (map[j].charAt(i) == '1') {
+                    Mob object = new BalloomEnemy(i, j, Sprite.balloom_left1.getFxImage());
+                    object.setState("right");
+                    entities.add(object);
+                } else if (map[j].charAt(i) == '2') {
+                    Mob object = new OnealEnemy(i, j, Sprite.oneal_left1.getFxImage());
+                    object.setState("right");
+                    entities.add(object);
+                }
+            }
+        }
     }
 
     public void destroyAround(Bomb g) {
@@ -529,6 +529,5 @@ public class BombermanGame extends Application {
             });
         }
     }
-
 
 }
